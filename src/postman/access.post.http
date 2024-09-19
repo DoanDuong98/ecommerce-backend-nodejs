@@ -1,0 +1,12 @@
+### signup
+
+@url_dev=http://localhost:3054/v1/api/
+
+POST {{url_dev}}/shop/login
+Content-Type: application/json
+x-api-key: 44cd7aa0313d14efbda4bfcedb2687684a29a86dc221595b3239bfdf96d9e3bd05ca4a014a0bf13b5ba1691e9b1f5f635f80de45b7eea65fb3a1c59d91b7ac0e
+
+{
+  "email": "duongdv+1@hapoosft.com",
+  "password": "Mk123456"
+}
