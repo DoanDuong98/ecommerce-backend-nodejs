@@ -1,9 +1,11 @@
 'use strict'
 
 const { NotFoundError, BadReqestError } = require("../core/error.response");
+const { order } = require("../models/order.model");
 const { findCartById } = require("../models/repositories/cart.repo");
 const { checkProductByServer } = require("../models/repositories/product.repo");
 const discountService = require("./discount.service");
+const { acquireLock, releaseLock } = require("./redis.service");
 
 class CheckoutService {
   /*
@@ -92,6 +94,85 @@ class CheckoutService {
       checkout_order
     }
   }
+
+  // ORDER
+  static async orderByUser({
+    shop_order_ids,
+    cartId,
+    userId,
+    user_address = {},
+    user_payment = {}
+  }) {
+    const { shop_order_ids, shop_order_ids_new } = await CheckoutService.checkoutReview({ 
+      cartId,
+      userId,
+      shop_order_ids
+     });
+
+     // check lai so luong ton kho
+     const products = shop_order_ids_new.flatMap(order => order.item_products);
+
+     // Optimistic locking
+     const acquireProduct = [];
+     for (let i = 0; i < products.length; i++) {
+      const { productId, quantity } = products[i];
+      const keyLock = await acquireLock(productId, quantity, cartId);
+      acquireProduct.push(!!keyLock);
+      if (keyLock) {
+        await releaseLock(keyLock);
+      }
+    }
+
+    // check neu co 1 san pham het hang
+    if (acquireProduct.includes(false)) {
+      throw new BadReqestError('Mot so san pham da duoc cap nhat, vui long quay lai trang san pham...')
+    }
+
+    const newOrder = await order.create({
+      order_userId: userId,
+      order_checkout: checkout_order,
+      order_shipping: user_address,
+      order_payment: user_payment,
+      order_products: shop_order_ids_new
+    });
+
+    // xoa san pham trong kho hang
+    if (newOrder) {
+
+    }
+
+    return newOrder;
+  }
+
+  /*
+    1. Query Orders [Users]
+  */
+  static async getOrdersByUsers() {
+
+  }
+
+  /*
+    1. Query Order Using Id [Users]
+  */
+  static async getOneOrderByUser() {
+
+  }
+
+  /*
+    1. Cancel Order [Users]
+  */
+  static async cancelOrder() {
+
+  }
+
+  /*
+    1. Update Order Status [Admin/Shop]
+  */
+  static async updateOrderStatus() {
+
+  }
+    
+
 }
 
 module.exports = CheckoutService
