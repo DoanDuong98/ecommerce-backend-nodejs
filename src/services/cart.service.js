@@ -1,7 +1,7 @@
 'use strict'
 
 const { NotFoundError } = require("../core/error.response");
-const cartModel = require("../models/cart.model");
+const { cart: cartModel } = require("../models/cart.model");
 const { findProductById } = require("../models/repositories/product.repo");
 
 /*

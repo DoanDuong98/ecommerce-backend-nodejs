@@ -19,4 +19,6 @@ const cartSchema = new Schema(
 );
 
 //Export the model
-module.exports = model(DOCUMENT_NAME, cartSchema);
+module.exports = {
+  cart: model(DOCUMENT_NAME, cartSchema)
+};
