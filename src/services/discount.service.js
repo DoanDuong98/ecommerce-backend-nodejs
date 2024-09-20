@@ -20,9 +20,9 @@ class DiscountService {
       type, value, max_value, max_uses, uses_count, max_uses_per_user, users_used
     } = payload
     // kiem tra
-    if (new Date(start_date) > new Date(end_date) || new Date() < new Date(start_date) || new Date() > new Date(end_date)) {
-      throw new BadReqestError("Invalid date!")
-    }
+    // if (new Date(start_date) > new Date(end_date) || new Date() < new Date(start_date) || new Date() > new Date(end_date)) {
+    //   throw new BadReqestError("Invalid date!")
+    // }
     // Create index for discount
     const findDiscount = await discountModel.findOne({
       discount_code: code,

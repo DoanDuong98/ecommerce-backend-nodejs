@@ -56,13 +56,47 @@ class CartService {
     return CartService.updateUserCartQuantity({ userId, products })
   }
 
-  static async addToCartV2({ userId, products = {} }) {
+  static async addToCartV2({ userId, shop_order_ids = {} }) {
     const { productId, quantity, old_quantity } = shop_order_ids[0]?.item_products[0];
     // check product
     const findProduct = await findProductById(productId);
     if (!findProduct) throw new NotFoundError("Product not found!")
+    // compare
+    if (findProduct.product_shop.toString() !== shop_order_ids[0]?.shopId) {
+      throw new NotFoundError('Product do not belong to the shop')
+    }
+
+    if (quantity === 0) {
+      // deleted
+    }
+
+    return await CartService.updateUserCartQuantity({
+      userId,
+      products: {
+        productId,
+        quantity: quantity - old_quantity
+      }
+    })
+  }
+
+  static async deleteUserCart({ userId, productId }) {
+    const query = { cart_userId: userId, cart_state: 'active' },
+    updateSet = {
+      $pull: {
+        cart_products: {
+          productId
+        }
+      }
+    }
+    const deleteCart = await cartModel.updateOne(query, updateSet);
+    return deleteCart;
+  }
+
+  static async getListUserCart({ userId }) {
+    return await cartModel.findOne({
+      cart_userId: +userId
+    }).lean()
   }
 }
-
 
 module.exports = CartService
