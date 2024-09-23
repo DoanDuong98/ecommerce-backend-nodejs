@@ -34,6 +34,56 @@ const releaseLock = async keyLock => {
     return await delAsyncKey(keyLock);
 }
 
+/*
+    String
+    - cmd
+        GET key
+        SET key value
+        EXISTS key
+*/
+
+/*
+    Hash
+    - one key - many value
+    - CMD: f
+        HSET name key value
+        HGET name key
+        HMSET name key1 vakue1 key2 value2
+        HMGET name key1 key2
+        HDEL name key
+        HLEN name
+        HEXISTS name key
+        HINCRBY name key number
+        HKEYS name
+        HVALS name
+        HGETALL name
+    - using: 
+        Cart
+*/
+
+/*
+    List
+    - cmd: 
+        LPUSH name key1 key2 key3 ... // left push
+        LRANGE name start stop // like slice js
+        RPUSH ...
+        LPOP name stop // delete number_ele first left
+        RPOP ...
+        BLOP name timeout
+        LINDEX name index
+        LLEN name
+        LREM name index1 index2
+        LTRIM name start stop
+        LSET name index new_value
+        LINSERT name BEFORE|AFTER ele value
+     - using for queue, stack,..
+        MQ: đảm bảo thứ tự, duplicate, 
+*/
+
+/*
+    Sets
+*/
+
 module.exports = {
     releaseLock,
     acquireLock
