@@ -3,7 +3,7 @@
 const { CREATED, SuccessResponse } = require("../core/success.response");
 const AccessService = require("../services/access.service");
 
-class AccessController {ư
+class AccessController {
   handleRefreshToken = async (req, res, next) => {
     // new SuccessResponse({
     //   message: 'Get token success!',

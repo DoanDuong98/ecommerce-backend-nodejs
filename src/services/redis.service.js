@@ -82,10 +82,46 @@ const releaseLock = async keyLock => {
 
 /*
     Sets
+    lưu không trùng lặp giá trị
+    không theo thứ tự cố định
+    - cmd: 
+        SADD name val1 val2 val3 ...
+        SMEMBERS name // show
+        SREM name val // remove val
+        SCARD name // length
+        SISMEMBER name val // check exists
+        SRANDMEMBER name count
+        SPOP name count
+        SMOVE src des val
+        SINTER key1 key2
+    - using: 
+        like post
+        suggestion
+        tìm bạn, sản phẩm chung
 */
+
+/*
+    Zset
+    tập hợp có thứ tự
+    - cmd:
+        ZADD name val1 key1 ...
+        ZREVRANGE name start stop WITHSCORES // sort by value
+        ZRANGE name start stop
+        ZREM name key
+        ZINCRBY name val key
+        ZRANGEBYSCORE name prev after
+    - using
+        bảng xếp hạng ...
+*/
+
+// Watch
+// Multi: đánh dấu
+// Exec: thực thi
+// Discard: 
+
 
 module.exports = {
     releaseLock,
-    acquireLock
+    acquireLock 
 }
 
