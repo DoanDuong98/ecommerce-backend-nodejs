@@ -5,6 +5,7 @@ const { BadReqestError } = require("../core/error.response");
 const { findAllDraftsForShop, publishProductByShop, findAllPublishedForShop, unPublishProductByShop, searchProductByUser, findAllProducts, findProduct, updateProductById } = require("../models/repositories/product.repo");
 const { removeNullValueObj, updateNestedObject } = require("../utils");
 const { insertInventory } = require("../models/repositories/inventory.repo");
+const { pushNotiToSystem } = require("./notification.service");
 
 // define Factory
 class ProductFactory {
@@ -89,6 +90,13 @@ class Product {
         productId: newProduct._id,
         shopId: this.product_shop,
         stock: this.query
+      })
+      // Push noti to system
+      pushNotiToSystem({
+        type: 'SHOP-001',
+        receivedId: 1,
+        senderId: 1,
+        options: {}
       })
     }
     return newProduct;

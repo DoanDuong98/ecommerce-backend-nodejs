@@ -92,7 +92,7 @@ class CommnetService {
         if (!foundProduct) throw new NotFoundError('Product not found');
 
 
-        // Cal left right parrent comment
+        // Calc left right parent comment
         const comment = await commentModel.findById(commentId);
         if (!comment) throw new NotFoundError('comment not found');
 
@@ -106,7 +106,7 @@ class CommnetService {
             comment_left: { $gte: leftVal, $lte: rightVal }
         });
 
-        //
+        // update left right
         await commentModel.updateMany({
             comment_productId: convertToObjectId(productId),
             comment_right: { $gt: rightVal }
