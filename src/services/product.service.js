@@ -95,9 +95,12 @@ class Product {
       pushNotiToSystem({
         type: 'SHOP-001',
         receivedId: 1,
-        senderId: 1,
-        options: {}
-      })
+        senderId: this.product_shop,
+        options: {
+          product_name: this.product_name,
+          product_shop: this.product_shop,
+        }
+      }).then().catch()
     }
     return newProduct;
   }

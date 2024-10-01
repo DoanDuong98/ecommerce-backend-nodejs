@@ -18,12 +18,13 @@ const notificationSchema = new Schema(
         require: true
     },
     noti_senderId: {
-        type: Number,
-        require: true
+        type: Schema.Types.ObjectId,
+        require: true,
+        ref: 'Shop'
     },
     noti_receiveId: {
         type: Number,
-        require: true
+        require: true,
     },
     noti_content: {
         type: String,
