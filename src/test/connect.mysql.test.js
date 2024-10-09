@@ -41,5 +41,3 @@ insertBatch().then();
 
 
 // pool.query()
-
-
