@@ -1,7 +1,7 @@
 'use strict'
 
+const Logger = require('../logger/logger.log');
 const { ReasonPhrases, StatusCodes } = require('../utils/httpStatusCode');
-
 const STATUS_CODE = {
   FORBIDEN: 403,
   CONFLICT: 409
@@ -15,7 +15,8 @@ const MESSAGE_CODE = {
 class ErrorResponse extends Error {
   constructor(message, status) {
     super(message)
-    this.status = status
+    this.status = status;
+    this.now = Date.now();
   }
 }
 
